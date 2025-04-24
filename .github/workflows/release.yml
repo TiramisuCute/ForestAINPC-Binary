@@ -1,0 +1,71 @@
+name: Create Plugin Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+# Explicitly define permissions needed to create releases
+permissions:
+  contents: write  # Needed for creating releases and uploading assets
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Extract tag name
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Verify DLL size
+        run: |
+          echo "DLL file size:"
+          ls -la Binaries/Win64/UnrealEditor-ForestAINPC.dll
+          
+      - name: Create plugin zip
+        run: |
+          # Create zip with proper compression for binary files
+          zip -r ForestAINPC.zip ForestAINPC.uplugin Binaries/ README.md -x "*.git*" || true
+          
+          # Add Content and Resources directories if they exist
+          if [ -d "Content" ]; then
+            zip -r ForestAINPC.zip Content/ -x "*.git*"
+          fi
+          
+          if [ -d "Resources" ]; then
+            zip -r ForestAINPC.zip Resources/ -x "*.git*"
+          fi
+          
+          if [ -d "Config" ]; then
+            zip -r ForestAINPC.zip Config/ -x "*.git*"
+          fi
+          
+          # Verify the zip contents
+          echo "Zip file created with size:"
+          ls -la ForestAINPC.zip
+          echo "Contents of zip file:"
+          unzip -l ForestAINPC.zip
+      
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "ForestAI NPC Plugin ${{ steps.get_version.outputs.VERSION }}"
+          draft: false
+          prerelease: false
+          files: ForestAINPC.zip
+          body: |
+            ## ForestAI NPC Plugin ${{ steps.get_version.outputs.VERSION }}
+            
+            This release contains the compiled binary plugin files for the ForestAI NPC system.
+            
+            ### Installation
+            
+            1. Download the ZIP file
+            2. Extract to your project's Plugins folder
+            3. Restart the Unreal Engine editor

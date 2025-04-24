@@ -1,0 +1,43 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Forest AI NPC",
+	"Description": "Plugin for voice-based interaction with AI NPCs in a forest fire training environment",
+	"Category": "AI",
+	"CreatedBy": "ForestVR Team",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EngineVersion": "5.3.0",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "ForestAINPC",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "AudioCapture",
+			"Enabled": true
+		},
+		{
+			"Name": "Niagara",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
+		}
+	]
+}
