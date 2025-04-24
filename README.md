@@ -69,7 +69,7 @@ This plugin is distributed as binary-only under a proprietary license. All right
 
 For issues, questions, or feature requests:
 
-- [Submit an Issue](https://github.com/yourusername/ForestAINPC/issues)
+- [Submit an Issue](https://github.com/TiramisuCute/ForestAINPC/issues)
 - Email: Forestvr@horizonsxr.com
 
 ## Credits
